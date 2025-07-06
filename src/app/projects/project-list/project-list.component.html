@@ -1,0 +1,66 @@
+<div class="card">
+
+    <div class="flex justify-between mb-3 items-center">
+        <h2 class="text-xl font-semibold">Project List</h2>
+        <div class="flex gap-2 items-center">
+            <!--Drop Down for filtering -->
+
+            <p-dropdown [options]="statusOptions" [(ngModel)]="selectedStatus"></p-dropdown>
+            <!--Button to open Project Dialog -->
+
+            <button pButton type="button" label="Add Project" icon="pi pi-plus" (click)="openAddDialog()"></button>
+        </div>
+    </div>
+    <!--Projects List View -->
+    <p-table [value]="filteredProjects" [paginator]="true" [rows]="5" [responsiveLayout]="'scroll'"
+        [rowExpandMode]="'single'">
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem"></th>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Owner</th>
+                <th>Status</th>
+                <th>Progress</th>
+                <th># Tasks</th>
+                <th>Actions</th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-project>
+            <tr>
+                <td>
+                    <button pButton type="button" pRipple icon="pi pi-chevron-down"
+                        (click)="project.expanded = !project.expanded"></button>
+                </td>
+                <td>{{ project.id }}</td>
+                <td>{{ project.name }}</td>
+                <td>{{ project.owner }}</td>
+                <td>
+                    <p-tag [value]="project.status"
+                        [severity]="project.status === 'Active' ? 'success' : 'info'"></p-tag>
+                </td>
+                <td>
+                    <p-progressBar [value]="getProgress(project)"></p-progressBar>
+                </td>
+                <td>{{ project.totalTasks }}</td>
+                <td>
+                    <button pButton icon="pi pi-eye" class="p-button-text p-button-sm"
+                        (click)="viewTasks(project)"></button>
+                    <button pButton icon="pi pi-pencil" class="p-button-text p-button-sm"
+                        (click)="editProject(project)"></button>
+                    <button pButton icon="pi pi-trash" class="p-button-text p-button-sm"
+                        (click)="deleteProject(project)"></button>
+                </td>
+            </tr>
+            <tr *ngIf="project.expanded">
+                <td colspan="8" class="bg-gray-100 text-sm p-3">
+                    <strong>Summary:</strong> {{ project.summary }}
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <!--Projects Dialog to Add/Edit projects -->
+    <app-project-dialog [visible]="showDialog" [project]="selectedProject" (onSave)="saveProject($event)"
+        (onClose)="closeDialog()"></app-project-dialog>
+</div>

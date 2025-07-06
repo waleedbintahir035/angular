@@ -1,0 +1,33 @@
+<!--Projects Dialog to Add/Edit projects -->
+<p-dialog header="{{ project ? 'Edit Project' : 'Add Project' }}" [(visible)]="visible" [modal]="true"
+    [style]="{ width: '800px', height: '650px' }" (onHide)="closeDialog()">
+    <ng-container *ngIf="visible && projectForm">
+        <form [formGroup]="projectForm" (ngSubmit)="saveProject()">
+            <div class="mb-3">
+                <label class="block mb-1">Project Name</label>
+                <input type="text" formControlName="name" class="w-full p-inputtext p-component" />
+            </div>
+
+            <div class="mb-3">
+                <label class="block mb-1">Description</label>
+                <textarea formControlName="description" rows="3" class="w-full p-inputtext p-component"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label class="block mb-1">Owner</label>
+                <input type="text" formControlName="owner" class="w-full p-inputtext p-component" />
+            </div>
+
+            <div class="mb-4">
+                <label class="block mb-1">Status</label>
+                <p-dropdown [options]="statusOptions" formControlName="status" placeholder="Select status"
+                    class="w-full"></p-dropdown>
+            </div>
+
+            <div class="flex justify-end gap-2">
+                <button pButton type="button" label="Cancel" (click)="closeDialog()"></button>
+                <button pButton type="submit" label="Save" [disabled]="!projectForm.valid"></button>
+            </div>
+        </form>
+    </ng-container>
+</p-dialog>
