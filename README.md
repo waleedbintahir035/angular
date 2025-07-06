@@ -2,8 +2,10 @@
 
 ##  Setup Instructions
 # Clone the project
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
+# use node version
+source ~/.nvm/nvm.sh
+nvm install 20.19.1
+nvm use 20.19.1
 
 # Install dependencies
 npm install
